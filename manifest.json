@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "permissions": ["activeTab", "tabs"],
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "/popup/index.html",
     "default_icon": "EaseHubIcon.png"
   },
   "content_scripts": [
