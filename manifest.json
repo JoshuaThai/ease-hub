@@ -3,8 +3,18 @@
   "description": "An extension focused on reducing friction and streamlining user actions.",
   "version": "1.0",
   "manifest_version": 3,
+  "permissions": ["activeTab", "tabs"],
   "action": {
     "default_popup": "index.html",
     "default_icon": "EaseHubIcon.png"
-  }
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": [
+        "https://developer.chrome.com/docs/extensions/*",
+        "https://developer.chrome.com/docs/webstore/*"
+      ]
+    }
+  ]
 }
