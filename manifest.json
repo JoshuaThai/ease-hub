@@ -3,10 +3,14 @@
   "description": "An extension focused on reducing friction and streamlining user actions.",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "storage"],
   "action": {
     "default_popup": "/popup/index.html",
     "default_icon": "EaseHubIcon.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
