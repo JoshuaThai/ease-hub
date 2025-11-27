@@ -6,3 +6,8 @@ body{
 p{
     font-size: 18px;
 }
+
+#quote{
+    font-style: italic;
+    color: #555;
+}

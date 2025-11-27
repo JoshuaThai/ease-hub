@@ -1,23 +1,51 @@
-import { GoogleGenAI } from "@google/genai";
+const API_KEY = "AIzaSyAtzHuQq0sNFysPDj5uHrtO0xcEM3lI6sI"; // don't ship this to public repos
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyAtzHuQq0sNFysPDj5uHrtO0xcEM3lI6sI" });
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type !== "getQuote") return;
 
-async function provideInspoQuote() {
-        const model = ai.getGenerativeModel({ model: "gemini-pro" });
-        const prompt = "Provide a random inspriational quote.";
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
-        document.getElementById('generateQuote').innerText = text;
+  (async () => {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [
+                  { text: "Give me a short original inspirational quote." }
+                ]
+              }
+            ]
+          })
+        }
+      );
+
+      const data = await res.json();
+      console.log("Gemini status:", res.status);
+      console.log("Gemini data:", data);
+
+      if (!res.ok || data.error) {
+        const msg = data.error?.message || `HTTP error ${res.status}`;
+        sendResponse({ error: msg });
+        return;
+      }
+
+      const parts = data.candidates?.[0]?.content?.parts || [];
+      const text =
+        parts.map(p => p.text).join("").trim() ||
+        "No quote found in response.";
+
+      sendResponse({ quote: text });
+    } catch (err) {
+      console.error("Gemini fetch failed:", err);
+      sendResponse({ error: err.message || "Unknown error" });
     }
-// Runs when the "Generate Inspirational Quote" button is clicked
-document.getElementById('generateQuote').addEventListener('click', provideInspoQuote);
+  })();
 
-// Save default API suggestions
-chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') {
-    chrome.storage.local.set({
-      apiSuggestions: ['tabs', 'storage', 'scripting']
-    });
-  }
+  return true; // keep channel open for async sendResponse
 });

@@ -11,3 +11,17 @@ document.getElementById('copyLink').addEventListener('click', function() {
 
     });
 });
+
+document.getElementById("generateQuote").addEventListener("click", () => {
+  chrome.runtime.sendMessage({ type: "getQuote" }, (response) => {
+    if (chrome.runtime.lastError) {
+      document.getElementById("quote").innerText = "Error: " + chrome.runtime.lastError.message;
+      return;
+    }
+    if (response?.quote) {
+      document.getElementById("quote").innerText = response.quote;
+    } else {
+      document.getElementById("quote").innerText = "Error: " + (response?.error || "No response");
+    }
+  });
+});
