@@ -25,3 +25,15 @@ document.getElementById("generateQuote").addEventListener("click", () => {
     }
   });
 });
+
+document.getElementById("backgroundSelect").addEventListener("change", (event) => {
+  const selectedBackground = event.target.value;
+  if (selectedBackground.includes("blue")) {
+    document.body.style.backgroundColor = "lightblue";
+  } else if (selectedBackground.includes("gray")) {
+    document.body.style.backgroundColor = "lightgray";
+  } else {
+    document.body.style.backgroundColor = "white";
+  }
+  console.log("Selected background:", selectedBackground);
+});

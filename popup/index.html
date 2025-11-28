@@ -11,6 +11,19 @@
         <p>What will you do today?</p>
         <button id="copyLink">Copy Current Tab Link</button>
         <button id="generateQuote">Generate Inspirational Quote</button>
+        <br><br>
+        <div popover id="settings">
+            <h2>Settings:</h2>
+            <label for="backgroundSelect">Choose Background Color:</label><br>
+            <select id="backgroundSelect">
+                <option value="white">White</option>
+                <option value="lightblue">Light Blue</option>
+                <option value="lightgray">Light Gray</option>
+            </select>
+            <br><br>
+            <button popovertarget="settings" popovertargetaction="hide">Close</button>
+        </div>
+        <button popovertarget="settings">Settings⚙️</button>
         <script src="/index.js"></script>
         <!-- <script type="module" src="ai.js"></script> -->
     </body>

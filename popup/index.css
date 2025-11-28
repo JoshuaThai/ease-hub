@@ -3,6 +3,10 @@ body{
     text-align: center;
 }
 
+#settings{
+    width: 300px;
+}
+
 p{
     font-size: 18px;
 }
